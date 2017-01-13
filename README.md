@@ -29,7 +29,20 @@ php artisan vendor:publish --provider="Atomescrochus\ItunesStore\ItunesSearchAPI
 
 ## Usage
 
-Soon.
+``` php
+// here is an example query to search Deezer's API
+$deezer = new \Atomescrochus\ItunesStore\ItunesSearchAPI();
+
+// You can execute a basic search, and hope for the best
+$results = $itunes->search("poker face lady gaga");
+
+// These are the options you can set with every kind of call
+$deezer->cache(120) // an integer (number of minutes), for the cache to expire, can be 0, default is set in config
+```
+
+### Results
+ 
+In the example above, what is returned in `$results` is an object containing: a collection of results; a count value for the results; raw response data; and the unformatted query sent to the API.
 
 ## Change log
 
