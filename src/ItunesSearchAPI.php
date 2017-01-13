@@ -29,9 +29,13 @@ class ItunesSearchAPI
         $cache_name = bcrypt($this->getRequestUrl());
         $response = \Httpful\Request::get($this->getRequestUrl())->expectsJson()->send();
 
-        $results =  Cache::remember($cache_name, $this->cache_time, function () use ($response) {
-            return $this->formatApiResults($response);
-        });
+        if ($response->code == 200) {
+            $results =  Cache::remember($cache_name, $this->cache_time, function () use ($response) {
+                return $this->formatApiResults($response);
+            });
+        } else {
+            $results =  $this->formatApiResults($response, true);
+        }
 
         return $results;
     }
@@ -43,7 +47,7 @@ class ItunesSearchAPI
         return $this;
     }
 
-    private function formatApiResults($result)
+    private function formatApiResults($result, $rateLimited = false)
     {
         $raw = $result->raw_body;
         $response = $result->body ? $result->body : null;
@@ -51,6 +55,7 @@ class ItunesSearchAPI
         return (object) [
             'results' => collect($response->results),
             'count' => $response->resultCount,
+            'rateLimited' => $rateLimited,
             'raw' => json_decode($raw),
             'query' => urldecode($this->getRequestUrl()),
         ];
