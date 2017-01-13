@@ -22,6 +22,11 @@ Then you have to install the package' service provider and alias:
 ];
 ```
 
+You will have to publish the configuration files also if you want to change the default value:
+```bash
+php artisan vendor:publish --provider="Atomescrochus\ItunesStore\ItunesSearchAPIProvider" --tag="config"
+```
+
 ## Usage
 
 Soon.
