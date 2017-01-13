@@ -4,19 +4,15 @@ All Notable changes to `laravel-itunes-store-api` will be documented in this fil
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## NEXT - YYYY-MM-DD
+## 0.0.1 - 2016-10-12
 
 ### Added
-- Nothing
+- Base config. Tagging a release for packagist convenience
 
+## Please ignore below this line!
+## Unreleased - YYYY-MM-DD
+### Added
 ### Deprecated
-- Nothing
-
 ### Fixed
-- Nothing
-
 ### Removed
-- Nothing
-
 ### Security
-- Nothing
