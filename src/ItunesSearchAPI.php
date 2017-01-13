@@ -15,6 +15,7 @@ class ItunesSearchAPI
     private $possible_lookup_types;
     private $possible_parameters;
     private $cacheOnly;
+    private $inCache;
 
     public function __construct()
     {
@@ -23,6 +24,7 @@ class ItunesSearchAPI
         $this->request_url = "https://itunes.apple.com";
         $this->parameters = [];
         $this->cacheOnly = false;
+        $this->inCache = false;
         $this->possible_lookup_types = [
             'id',
             'amgArtistId',
@@ -60,6 +62,13 @@ class ItunesSearchAPI
         return $this;
     }
 
+    public function inCache(bool $inCache = true)
+    {
+        $this->inCache = $inCache;
+
+        return $this;
+    }
+
     public function query($terms, $extra_parameters = ['limit' => 15])
     {
         $this->endpoint = "/search";
@@ -86,6 +95,11 @@ class ItunesSearchAPI
     public function search()
     {
         $cache_name = md5($this->getRequestUrl());
+
+        if ($this->inCache) {
+            return Cache::has($cache_name);
+        }
+
         $cache = $this->checkForCache($cache_name);
         
         if (isset($cache->content)) {
