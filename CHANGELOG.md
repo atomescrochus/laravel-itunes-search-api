@@ -4,6 +4,10 @@ All Notable changes to `laravel-itunes-store-api` will be documented in this fil
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.1.2 - 2016-10-13
+### Fixed
+- Stupid mistakes made on the thrill of the moment
+
 ## 2.1.1 - 2016-10-13
 ### Fixed
 - A default response object is returned when there is no result body
