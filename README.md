@@ -20,6 +20,8 @@ Then you have to install the package' service provider and alias:
     ...
     Atomescrochus\ItunesStore\ItunesSearchAPIProvider::class,
 ];
+
+// no need to add aliases, the packages bind itselfs as "ItunesSearch"
 ```
 
 You will have to publish the configuration files also if you want to change the default value:
@@ -31,16 +33,14 @@ php artisan vendor:publish --provider="Atomescrochus\ItunesStore\ItunesSearchAPI
 
 ``` php
 // here is an example query to search Deezer's API
-$deezer = new \Atomescrochus\ItunesStore\ItunesSearchAPI();
-
 // You can execute a basic search, and hope for the best
-$results = $itunes->search("poker face lady gaga"); // limited to 15 results by default
+$results = ItunesSearch::query("poker face lady gaga"); // limited to 15 results by default
 
 // You can also send an optional array of other parameters supported by the API, for example
-$results = $itunes->search("poker face lady gaga", ['country' => 'CA', 'limit' => 10]);
+$results = ItunesSearch::query("poker face lady gaga", ['country' => 'CA', 'limit' => 10]);
 
-// These are the options you can set with every kind of call
-$deezer->cache(120) // an integer (number of minutes), for the cache to expire, can be 0, default is set in config
+// These are the options you can set
+ItunesSearch::setCacheDuration(120) // an integer (number of minutes), for the cache to expire, can be 0, default is set in config
 ```
 
 ### Caching and iTunes Store API's rate limiting

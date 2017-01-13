@@ -10,6 +10,7 @@ class ItunesSearchAPI
     private $searchApiRateLimit;
     private $request_url;
     private $parameters;
+    private $endpoint;
 
     public function __construct()
     {
@@ -39,21 +40,38 @@ class ItunesSearchAPI
     public function search()
     {
         $cache_name = md5($this->getRequestUrl());
-        $cached_response = Cache::has($cache_name);
-        
-        if ($cached_response) {
-            return Cache::get($cache_name);
+        $cache = $this->checkForCache($cache_name);
+    
+        if ($cache) {
+            return $cache;
         }
 
         $response = \Httpful\Request::get($this->getRequestUrl())->expectsJson()->send();
         
-        if ($response->code == 200) {
+        if ($response->code == 200 && $cache) {
             return  Cache::remember($cache_name, $this->cache_time, function () use ($response) {
                 return $this->formatApiResults($response);
             });
         }
 
-        return  $this->formatApiResults($response, false, true);
+        if ($response->code == 403) {
+            return  $this->formatApiResults($response, false, true);
+        }
+
+        return  $this->formatApiResults($response, false);
+    }
+
+    private function checkForCache($name)
+    {
+        if ($this->cache_time == 0) {
+            return false;
+        }
+
+        if (Cache::has($name)) {
+            return Cache::get($name);
+        }
+
+        return false;
     }
 
     private function formatApiResults($result, $cached = true, $rateLimited = false)
