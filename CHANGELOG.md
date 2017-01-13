@@ -4,6 +4,18 @@ All Notable changes to `laravel-itunes-store-api` will be documented in this fil
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.0.0 - 2016-10-13
+### Added
+- Now with facades, as `ItunesSearch`
+
+### Fixed
+- Setting a cache time of `0` now corrently ignore caching
+
+### Deprecated
+- Method `search()` is now `query()` to be more consistent with actual usage
+- Method `executeSearch()` is now `search()` to be more consistent with actual usage
+- Method `cache()` is now `setCacheDuration()` to be more consistent with actual usage
+
 ## 1.0.3 - 2016-10-13
 ### Fixed
 - Cache name would change on every request, causing the package to store, but not being able to retreive old cached items
