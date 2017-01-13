@@ -34,7 +34,10 @@ php artisan vendor:publish --provider="Atomescrochus\ItunesStore\ItunesSearchAPI
 $deezer = new \Atomescrochus\ItunesStore\ItunesSearchAPI();
 
 // You can execute a basic search, and hope for the best
-$results = $itunes->search("poker face lady gaga");
+$results = $itunes->search("poker face lady gaga"); // limited to 15 results by default
+
+// You can also send an optional array of other parameters supported by the API, for example
+$results = $itunes->search("poker face lady gaga", ['country' => 'CA', 'limit' => 10]);
 
 // These are the options you can set with every kind of call
 $deezer->cache(120) // an integer (number of minutes), for the cache to expire, can be 0, default is set in config

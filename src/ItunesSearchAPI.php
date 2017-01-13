@@ -26,6 +26,18 @@ class ItunesSearchAPI
         $parameters = ['term' => $terms];
         $this->parameters = array_merge($parameters, $extra_parameters);
 
+        return $this->executeSearch();
+    }
+
+    public function cache(int $minutes)
+    {
+        $this->cache_time = $minutes;
+
+        return $this;
+    }
+
+    public function executeSearch()
+    {
         $cache_name = bcrypt($this->getRequestUrl());
         $response = \Httpful\Request::get($this->getRequestUrl())->expectsJson()->send();
 
@@ -38,13 +50,6 @@ class ItunesSearchAPI
         }
 
         return $results;
-    }
-
-    public function cache(int $minutes)
-    {
-        $this->cache_time = $minutes;
-
-        return $this;
     }
 
     private function formatApiResults($result, $rateLimited = false)
