@@ -134,11 +134,21 @@ class ItunesSearchAPI
     private function formatApiResults($result, $cached = true, $rateLimited = false)
     {
         $raw = $result->raw_body;
-        $response = $result->body ? $result->body : null;
+
+        if ($result->body) {
+            return (object) [
+                'results' => collect($response->results),
+                'count' => $response->resultCount,
+                'rateLimited' => $rateLimited,
+                'cached' => $cached,
+                'raw' => json_decode($raw),
+                'query' => urldecode($this->getRequestUrl()),
+            ];
+        }
 
         return (object) [
-            'results' => collect($response->results),
-            'count' => $response->resultCount,
+            'results' = collect([]).
+            'count' => 0,
             'rateLimited' => $rateLimited,
             'cached' => $cached,
             'raw' => json_decode($raw),
