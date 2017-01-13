@@ -1,7 +1,7 @@
 {
     "name": "atomescrochus/laravel-itunes-search-api",
     "type": "library",
-    "description": "A simple way to interact with the iTunes Store API from aLaravel >= 5.3",
+    "description": "Easily search the iTunes API, with rate limiting awareness and caching support.",
     "keywords": [
         "atomescrochus",
         "laravel-itunes-search-api",

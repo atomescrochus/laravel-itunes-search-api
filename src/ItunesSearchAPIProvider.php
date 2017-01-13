@@ -27,6 +27,13 @@ class ItunesSearchAPIProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('atomescrochus.itunes', function () {
+            return new ItunesSearchAPI();
+        });
+
+        $this->app->booting(function () {
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('ItunesSearch', 'Atomescrochus\ItunesStore\Facades\ItunesSearch');
+        });
     }
 }
