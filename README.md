@@ -42,6 +42,14 @@ $results = ItunesSearch::query("poker face lady gaga"); // limited to 15 results
 
 // You can also send an optional array of other parameters supported by the API, for example
 $results = ItunesSearch::query("poker face lady gaga", ['country' => 'CA', 'limit' => 10]);
+
+// You can also execute a lookup (https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/#lookup)
+$results = ItunesSearch::lookup(902122445); // defaults to lookup by iTunes Store ID
+$results = ItunesSearch::lookup(468749, 'amgArtistId') // you can do other type of lookups
+$results = ItunesSearch::lookup("468749,5723", 'amgArtistId'); // you can also search for multiple ids like so
+
+// And as for the query() method, you can send an optional array of parameters
+$results = ItunesSearch::lookup(902122445, ['country' => 'CA', 'limit' => 10]); 
 ```
 
 ### Caching and iTunes Store API's rate limiting

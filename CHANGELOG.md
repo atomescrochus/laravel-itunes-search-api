@@ -4,6 +4,10 @@ All Notable changes to `laravel-itunes-store-api` will be documented in this fil
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.1.0 - 2016-10-13
+### Added
+- `lookup()` method to search the store by IDs
+
 ## 2.0.1 - 2016-10-13
 ### Fixed
 - Caching logic

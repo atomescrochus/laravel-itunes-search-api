@@ -37,6 +37,15 @@ class ItunesSearchAPI
         return $this->search();
     }
 
+    public function lookup($id, $type = 'id', $extra_parameters = [])
+    {
+        $this->endpoint = "/lookup";
+        $parameters = [$type => $id];
+        $this->parameters = array_merge($parameters, $extra_parameters);
+
+        return $this->search();
+    }
+
     public function search()
     {
         $cache_name = md5($this->getRequestUrl());
