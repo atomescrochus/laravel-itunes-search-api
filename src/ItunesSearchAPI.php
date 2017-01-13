@@ -46,13 +46,13 @@ class ItunesSearchAPI
                 return $this->formatApiResults($response);
             });
         } else {
-            $results =  $this->formatApiResults($response, true);
+            $results =  $this->formatApiResults($response, false, true);
         }
 
         return $results;
     }
 
-    private function formatApiResults($result, $rateLimited = false)
+    private function formatApiResults($result, $cached = true, $rateLimited = false)
     {
         $raw = $result->raw_body;
         $response = $result->body ? $result->body : null;
@@ -61,6 +61,7 @@ class ItunesSearchAPI
             'results' => collect($response->results),
             'count' => $response->resultCount,
             'rateLimited' => $rateLimited,
+            'cached' => $cached,
             'raw' => json_decode($raw),
             'query' => urldecode($this->getRequestUrl()),
         ];
