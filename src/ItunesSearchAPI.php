@@ -2,6 +2,7 @@
 
 namespace Atomescrochus\ItunesStore;
 
+use Atomescrochus\ItunesStore\Exceptions\UsageErrors;
 use Illuminate\Support\Facades\Cache;
 
 class ItunesSearchAPI
@@ -11,6 +12,7 @@ class ItunesSearchAPI
     private $request_url;
     private $parameters;
     private $endpoint;
+    private $possible_lookup_types;
 
     public function __construct()
     {
@@ -18,6 +20,7 @@ class ItunesSearchAPI
         $this->searchApiRateLimit = (object) ['numberOfCalls' => 20, 'perAmountOfSeconds' => 60];
         $this->request_url = "https://itunes.apple.com";
         $this->parameters = [];
+        $this->possible_lookup_types = ['id', 'amgArtistId', 'amgAlbumId', 'amgVideoId', 'upc', 'isbn', ];
     }
 
     public function setCacheDuration(int $minutes)
@@ -39,6 +42,10 @@ class ItunesSearchAPI
 
     public function lookup($id, $type = 'id', $extra_parameters = [])
     {
+        if (!in_array($type, $this->possible_lookup_types)) {
+            throw UsageErrors::lookupTypes();
+        }
+
         $this->endpoint = "/lookup";
         $parameters = [$type => $id];
         $this->parameters = array_merge($parameters, $extra_parameters);
