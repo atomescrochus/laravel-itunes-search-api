@@ -2,7 +2,7 @@
 
 Here is to have a simple way to interact with the iTunes Store API from a Laravel >= 5.3 app.
 
-This package is usable in production, but should still be considered as a _work in progress_, so excuse the possible occasionnal hicups!
+This package is usable in production, but should still be considered as a _work in progress_. Found a bug? Got a feature request? Open an issue or better, send a PR!
 
 ## Install
 
@@ -42,6 +42,14 @@ $results = ItunesSearch::query("poker face lady gaga"); // limited to 15 results
 
 // You can also send an optional array of other parameters supported by the API, for example
 $results = ItunesSearch::query("poker face lady gaga", ['country' => 'CA', 'limit' => 10]);
+
+// You can also execute a lookup (https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/#lookup)
+$results = ItunesSearch::lookup(902122445); // defaults to lookup by iTunes Store ID
+$results = ItunesSearch::lookup(468749, 'amgArtistId') // you can do other type of lookups
+$results = ItunesSearch::lookup("468749,5723", 'amgArtistId'); // you can also search for multiple ids like so
+
+// And as for the query() method, you can send an optional array of parameters
+$results = ItunesSearch::lookup(902122445, 'id', ['country' => 'CA', 'limit' => 10]); 
 ```
 
 ### Caching and iTunes Store API's rate limiting
