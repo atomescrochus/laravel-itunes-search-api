@@ -4,16 +4,12 @@ All Notable changes to `laravel-itunes-store-api` will be documented in this fil
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## Unreleased - YYYY-MM-DD
+## 1.0.0 - 2016-10-12
 ### Added
 - Config file with default cache time
 - Added a search method to search the Store API
 - Added a cache method to set a number of minutes to cache for, overriding the default one in config
-
-### Deprecated
-### Fixed
-### Removed
-### Security
+- Added a mechanism to guess if we're rate limited and a parameter to the result object to display if we are
 
 ## 0.0.1 - 2016-10-12
 
