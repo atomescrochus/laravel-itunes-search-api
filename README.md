@@ -22,9 +22,41 @@ Then you have to install the package' service provider and alias:
 ];
 ```
 
+You will have to publish the configuration files also if you want to change the default value:
+```bash
+php artisan vendor:publish --provider="Atomescrochus\ItunesStore\ItunesSearchAPIProvider" --tag="config"
+```
+
 ## Usage
 
-Soon.
+``` php
+// here is an example query to search Deezer's API
+$deezer = new \Atomescrochus\ItunesStore\ItunesSearchAPI();
+
+// You can execute a basic search, and hope for the best
+$results = $itunes->search("poker face lady gaga"); // limited to 15 results by default
+
+// You can also send an optional array of other parameters supported by the API, for example
+$results = $itunes->search("poker face lady gaga", ['country' => 'CA', 'limit' => 10]);
+
+// These are the options you can set with every kind of call
+$deezer->cache(120) // an integer (number of minutes), for the cache to expire, can be 0, default is set in config
+```
+
+### Caching and iTunes Store API's rate limiting
+Curently, the API is "[limited to approximately 20 calls per minute (subject to change)](https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/)". (Approvimately!)
+
+For now, the only way to know that you're on the rather erratic Store's rate limit is if we hit an HTTP response of `403 Forbidden`. There is no way to know when it expires, or how many call you have left, or anything usefull for that matter (yep, this sucks).
+
+To help you manage the rate limiting, we  provide a parameter to the result object returned by the search called `rateLimited`.  If set to `true`, we encountered a `403` and it means that you are rate limited.
+
+Of course, we cannot stop you from hitting the API even if you are rate limited, so it's _your_ duty to make sure you stope for a little while if `rateLimited` is set to true.
+
+One last thing on rate limiting: since we usually cache results by default, if we ever encounter a `403`, we return an empty result _without_ caching results, without consideration to the caching setting you could have set. This way, if you make the same call again within the normal caching time, but are not rate limited again, you won't get an empty result.
+
+### Results
+ 
+In the example above, what is returned in `$results` is an object containing: a collection of results; a count value for the results; raw response data; and the unformatted query sent to the API.
 
 ## Change log
 
