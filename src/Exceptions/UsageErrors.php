@@ -10,4 +10,9 @@ class UsageErrors extends Exception
     {
         return new static('This type of lookup is invalid.');
     }
+
+    public static function parameters($parameter)
+    {
+        return new static("The parameter '{$parameter}' is invalid.");
+    }
 }

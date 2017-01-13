@@ -49,7 +49,7 @@ $results = ItunesSearch::lookup(468749, 'amgArtistId') // you can do other type 
 $results = ItunesSearch::lookup("468749,5723", 'amgArtistId'); // you can also search for multiple ids like so
 
 // And as for the query() method, you can send an optional array of parameters
-$results = ItunesSearch::lookup(902122445, ['country' => 'CA', 'limit' => 10]); 
+$results = ItunesSearch::lookup(902122445, 'id', ['country' => 'CA', 'limit' => 10]); 
 ```
 
 ### Caching and iTunes Store API's rate limiting

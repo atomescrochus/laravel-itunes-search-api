@@ -13,6 +13,7 @@ class ItunesSearchAPI
     private $parameters;
     private $endpoint;
     private $possible_lookup_types;
+    private $possible_parameters;
 
     public function __construct()
     {
@@ -20,7 +21,27 @@ class ItunesSearchAPI
         $this->searchApiRateLimit = (object) ['numberOfCalls' => 20, 'perAmountOfSeconds' => 60];
         $this->request_url = "https://itunes.apple.com";
         $this->parameters = [];
-        $this->possible_lookup_types = ['id', 'amgArtistId', 'amgAlbumId', 'amgVideoId', 'upc', 'isbn', ];
+        $this->possible_lookup_types = [
+            'id',
+            'amgArtistId',
+            'amgAlbumId',
+            'amgVideoId',
+            'upc',
+            'isbn'
+        ];
+        $this->possible_parameters = [
+            'term',
+            'country',
+            'media',
+            'entity',
+            'attribute',
+            'callback',
+            'limit',
+            'lang',
+            'version',
+            'explicit'
+
+        ];
     }
 
     public function setCacheDuration(int $minutes)
@@ -34,8 +55,8 @@ class ItunesSearchAPI
     {
         $this->endpoint = "/search";
 
-        $parameters = ['term' => $terms];
-        $this->parameters = array_merge($parameters, $extra_parameters);
+        $parameters = array_merge(['term' => $terms], $extra_parameters);
+        $this->setParameters($parameters);
 
         return $this->search();
     }
@@ -47,8 +68,8 @@ class ItunesSearchAPI
         }
 
         $this->endpoint = "/lookup";
-        $parameters = [$type => $id];
-        $this->parameters = array_merge($parameters, $extra_parameters);
+        $parameters = array_merge([$type => $id], $extra_parameters);
+        $this->setParameters($parameters, true);
 
         return $this->search();
     }
@@ -75,6 +96,23 @@ class ItunesSearchAPI
         }
 
         return  $this->formatApiResults($response, false);
+    }
+
+    private function setParameters($parameters, $isLookup = false)
+    {
+        $possibilities = $this->possible_parameters;
+
+        if ($isLookup == true) {
+            $possibilities = array_merge($possibilities, $this->possible_lookup_types);
+        }
+
+        foreach ($parameters as $parameter => $value) {
+            if (!in_array($parameter, $possibilities)) {
+                throw UsageErrors::parameters($parameter);
+            }
+        }
+
+        $this->parameters = $parameters;
     }
 
     private function checkForCache($name)
