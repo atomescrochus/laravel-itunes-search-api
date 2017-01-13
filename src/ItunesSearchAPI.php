@@ -38,18 +38,22 @@ class ItunesSearchAPI
 
     public function executeSearch()
     {
-        $cache_name = bcrypt($this->getRequestUrl());
-        $response = \Httpful\Request::get($this->getRequestUrl())->expectsJson()->send();
-
-        if ($response->code == 200) {
-            $results =  Cache::remember($cache_name, $this->cache_time, function () use ($response) {
-                return $this->formatApiResults($response);
-            });
-        } else {
-            $results =  $this->formatApiResults($response, false, true);
+        $cache_name = md5($this->getRequestUrl());
+        $cached_response = Cache::has($cache_name);
+        
+        if ($cached_response) {
+            return Cache::get($cache_name);
         }
 
-        return $results;
+        $response = \Httpful\Request::get($this->getRequestUrl())->expectsJson()->send();
+        
+        if ($response->code == 200) {
+            return  Cache::remember($cache_name, $this->cache_time, function () use ($response) {
+                return $this->formatApiResults($response);
+            });
+        }
+
+        return  $this->formatApiResults($response, false, true);
     }
 
     private function formatApiResults($result, $cached = true, $rateLimited = false)
