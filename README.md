@@ -32,15 +32,16 @@ php artisan vendor:publish --provider="Atomescrochus\ItunesStore\ItunesSearchAPI
 ## Usage
 
 ``` php
-// here is an example query to search Deezer's API
+// here is an example query to search iTunes Store's API
+
+// Set cache duration as an integer (number of minutes), can be 0
+ItunesSearch::setCacheDuration(120) // optional, default is set in config
+
 // You can execute a basic search, and hope for the best
 $results = ItunesSearch::query("poker face lady gaga"); // limited to 15 results by default
 
 // You can also send an optional array of other parameters supported by the API, for example
 $results = ItunesSearch::query("poker face lady gaga", ['country' => 'CA', 'limit' => 10]);
-
-// These are the options you can set
-ItunesSearch::setCacheDuration(120) // an integer (number of minutes), for the cache to expire, can be 0, default is set in config
 ```
 
 ### Caching and iTunes Store API's rate limiting
