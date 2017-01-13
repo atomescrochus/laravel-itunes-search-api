@@ -7,6 +7,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## 2.2.0 - 2016-10-13
 ### Added
 - Method `cacheOnly()` to try and search only in the local cache, without polling the Search API
+- Method `inCache()` to check if a request is included in the local cache
 
 ## 2.1.2 - 2016-10-13
 ### Fixed
