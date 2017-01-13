@@ -2,11 +2,25 @@
 
 Here is to have a simple way to interact with the iTunes Store API from a Laravel >= 5.3 app.
 
-** Not suitable for production yet.**
+**Not suitable for production yet.**
 
 ## Install
 
-Soon.
+You can install this package via composer:
+
+``` bash
+$ composer require atomescrochus/laravel-itunes-search-api
+```
+
+Then you have to install the package' service provider and alias:
+
+```php
+// config/app.php
+'providers' => [
+    ...
+    Atomescrochus\ItunesStore\ItunesSearchAPIProvider::class,
+];
+```
 
 ## Usage
 
