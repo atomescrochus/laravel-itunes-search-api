@@ -4,6 +4,10 @@ All Notable changes to `laravel-itunes-store-api` will be documented in this fil
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 1.0.3 - 2016-10-13
+### Fixed
+- Cache name would change on every request, causing the package to store, but not being able to retreive old cached items
+
 ## 1.0.2 - 2016-10-12
 ### Added
 - Fixed a typo in composer.json making the pakcage unrocognizable in packagist
