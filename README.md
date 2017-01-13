@@ -56,7 +56,7 @@ One last thing on rate limiting: since we usually cache results by default, if w
 
 ### Results
  
-In the example above, what is returned in `$results` is an object containing: a collection of results; a count value for the results; raw response data; and the unformatted query sent to the API.
+In the example above, what is returned in `$results` is an object containing: a collection of results; a count value for the results; a boolean to know if we are rate limited, a boolean to know if the result is coming from cached data, raw response data; and the unformatted query sent to the API.
 
 ## Change log
 
