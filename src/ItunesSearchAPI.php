@@ -41,14 +41,14 @@ class ItunesSearchAPI
     {
         $cache_name = md5($this->getRequestUrl());
         $cache = $this->checkForCache($cache_name);
-    
-        if ($cache) {
-            return $cache;
+        
+        if (isset($cache->content)) {
+            return $cache->content;
         }
 
         $response = \Httpful\Request::get($this->getRequestUrl())->expectsJson()->send();
         
-        if ($response->code == 200 && $cache) {
+        if ($response->code == 200 && $cache->shouldCache == true) {
             return  Cache::remember($cache_name, $this->cache_time, function () use ($response) {
                 return $this->formatApiResults($response);
             });
@@ -63,15 +63,18 @@ class ItunesSearchAPI
 
     private function checkForCache($name)
     {
-        if ($this->cache_time == 0) {
-            return false;
-        }
+        $cache = (object) ['content' => null, 'shouldCache' => true];
 
         if (Cache::has($name)) {
-            return Cache::get($name);
+            $cache->content = Cache::get($name);
         }
 
-        return false;
+        if ($this->cache_time == 0) {
+            $cache->shouldCache = false;
+            $cache->content = null;
+        }
+
+        return $cache;
     }
 
     private function formatApiResults($result, $cached = true, $rateLimited = false)
