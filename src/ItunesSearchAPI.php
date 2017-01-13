@@ -19,24 +19,24 @@ class ItunesSearchAPI
         $this->parameters = [];
     }
 
-    public function search($terms, $extra_parameters = ['limit' => 15])
-    {
-        $this->endpoint = "/search";
-
-        $parameters = ['term' => $terms];
-        $this->parameters = array_merge($parameters, $extra_parameters);
-
-        return $this->executeSearch();
-    }
-
-    public function cache(int $minutes)
+    public function setCacheDuration(int $minutes)
     {
         $this->cache_time = $minutes;
 
         return $this;
     }
 
-    public function executeSearch()
+    public function query($terms, $extra_parameters = ['limit' => 15])
+    {
+        $this->endpoint = "/search";
+
+        $parameters = ['term' => $terms];
+        $this->parameters = array_merge($parameters, $extra_parameters);
+
+        return $this->search();
+    }
+
+    public function search()
     {
         $cache_name = md5($this->getRequestUrl());
         $cached_response = Cache::has($cache_name);
