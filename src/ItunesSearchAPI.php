@@ -137,8 +137,8 @@ class ItunesSearchAPI
 
         if ($result->body) {
             return (object) [
-                'results' => collect($response->results),
-                'count' => $response->resultCount,
+                'results' => collect($result->body->results),
+                'count' => $result->body->resultCount,
                 'rateLimited' => $rateLimited,
                 'cached' => $cached,
                 'raw' => json_decode($raw),
@@ -147,7 +147,7 @@ class ItunesSearchAPI
         }
 
         return (object) [
-            'results' = collect([]).
+            'results' => collect([]),
             'count' => 0,
             'rateLimited' => $rateLimited,
             'cached' => $cached,
