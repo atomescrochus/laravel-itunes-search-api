@@ -2,7 +2,7 @@
 
 Here is to have a simple way to interact with the iTunes Store API from a Laravel >= 5.3 app.
 
-This package is usable in production, but should still be considered as a _work in progress_, so excuse the possible occasionnal hicups!
+This package is usable in production, but should still be considered as a _work in progress_. Found a bug? Got a feature request? Open an issue or better, send a PR!
 
 ## Install
 
