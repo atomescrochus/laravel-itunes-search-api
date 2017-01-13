@@ -14,6 +14,7 @@ class ItunesSearchAPI
     private $endpoint;
     private $possible_lookup_types;
     private $possible_parameters;
+    private $cacheOnly;
 
     public function __construct()
     {
@@ -21,6 +22,7 @@ class ItunesSearchAPI
         $this->searchApiRateLimit = (object) ['numberOfCalls' => 20, 'perAmountOfSeconds' => 60];
         $this->request_url = "https://itunes.apple.com";
         $this->parameters = [];
+        $this->cacheOnly = false;
         $this->possible_lookup_types = [
             'id',
             'amgArtistId',
@@ -47,6 +49,13 @@ class ItunesSearchAPI
     public function setCacheDuration(int $minutes)
     {
         $this->cache_time = $minutes;
+
+        return $this;
+    }
+
+    public function cacheOnly(bool $cacheOnly = true)
+    {
+        $this->cacheOnly = $cacheOnly;
 
         return $this;
     }
@@ -80,7 +89,20 @@ class ItunesSearchAPI
         $cache = $this->checkForCache($cache_name);
         
         if (isset($cache->content)) {
-            return $cache->content;
+            $cached = $cache->content;
+            $cached->cacheOnly = $this->cacheOnly;
+            return $cached;
+        }
+
+        if ($this->cacheOnly) { // here, there is no cached content, and we've asked only for the cache...
+            return (object) [
+                'results' => collect([]),
+                'count' => 0,
+                'rateLimited' => false,
+                'cached' => false,
+                'cacheOnly' => true,
+                'query' => urldecode($this->getRequestUrl())
+            ];
         }
 
         $response = \Httpful\Request::get($this->getRequestUrl())->expectsJson()->send();
@@ -135,12 +157,13 @@ class ItunesSearchAPI
     {
         $raw = $result->raw_body;
 
-        if ($result->body) {
+        if (isset($result->body)) {
             return (object) [
                 'results' => collect($result->body->results),
                 'count' => $result->body->resultCount,
                 'rateLimited' => $rateLimited,
                 'cached' => $cached,
+                'cacheOnly' => $this->cacheOnly,
                 'raw' => json_decode($raw),
                 'query' => urldecode($this->getRequestUrl()),
             ];

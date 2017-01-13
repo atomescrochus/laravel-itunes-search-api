@@ -48,8 +48,14 @@ $results = ItunesSearch::lookup(902122445); // defaults to lookup by iTunes Stor
 $results = ItunesSearch::lookup(468749, 'amgArtistId') // you can do other type of lookups
 $results = ItunesSearch::lookup("468749,5723", 'amgArtistId'); // you can also search for multiple ids like so
 
-// And as for the query() method, you can send an optional array of parameters
+// And like the query() method, you can send an optional array of parameters
 $results = ItunesSearch::lookup(902122445, 'id', ['country' => 'CA', 'limit' => 10]); 
+
+// If you ever find yourself that you want to check your local cache for a result, without actually
+// polling the Search API (for example, in cache you already know you've been rate limited),
+// you can do the following that will a parameter `cacheOnly` to and never poll the Store API
+ItunesSearch::cacheOnly(); // you could pass false to reverse this behavior
+$results = ItunesSearch::query("poker face lady gaga");
 ```
 
 ### Caching and iTunes Store API's rate limiting
@@ -65,7 +71,7 @@ One last thing on rate limiting: since we usually cache results by default, if w
 
 ### Results
  
-In the example above, what is returned in `$results` is an object containing: a collection of results; a count value for the results; a boolean to know if we are rate limited, a boolean to know if the result is coming from cached data, raw response data; and the unformatted query sent to the API.
+In the example above, what is returned in `$results` is an object containing: a collection of results; a count value for the results; a boolean to know if we are rate limited, a boolean to know if the result is coming from cached data, a boolean to know if we requested to search in the cache only, raw response data; and the unformatted query sent to the API.
 
 ## Change log
 
