@@ -12,7 +12,7 @@ You can install this package via composer:
 $ composer require atomescrochus/laravel-itunes-search-api
 ```
 
-Then you have to install the package' service provider and alias:
+If you are _on Laravel >=5.5, the package will be working with the auto-discovery feature_. For earlier versions, you will have to install the package' service provider and alias:
 
 ```php
 // config/app.php
