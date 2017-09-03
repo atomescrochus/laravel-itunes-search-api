@@ -4,6 +4,10 @@ All Notable changes to `laravel-itunes-store-api` will be documented in this fil
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.3.0 - 2017-09-03
+### Added
+- Package auto-discovery for Laravel 5.5
+
 ## 2.2.0 - 2016-10-13
 ### Added
 - Method `cacheOnly()` to try and search only in the local cache, without polling the Search API

@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "illuminate/support": "~5.1",
+        "illuminate/support": "~5.1|~5.2|~5.3|~5.4|~5.5",
         "php" : "~7.0",
         "nategood/httpful": "^0.2.20"
     },
@@ -46,5 +46,12 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Atomescrochus\\ItunesStore\\ItunesSearchAPIProvider"
+            ]
+        }
     }
 }
