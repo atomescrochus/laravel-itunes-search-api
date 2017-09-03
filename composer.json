@@ -50,7 +50,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Atomescrochus\\ItunesSearchAPIProvider"
+                "Atomescrochus\\ItunesStore\\ItunesSearchAPIProvider"
             ]
         }
     }
