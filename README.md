@@ -63,7 +63,7 @@ $existInCache = ItunesSearch::inCache()->lookup(909253); // returns boolean
 ```
 
 ### Caching and iTunes Store API's rate limiting
-Curently, the API is "[limited to approximately 20 calls per minute (subject to change)](https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/)". (Approvimately!)
+Curently, the API is "[limited to approximately 20 calls per minute (subject to change)](https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/)". (Approximately!)
 
 For now, the only way to know that you're on the rather erratic Store's rate limit is if we hit an HTTP response of `403 Forbidden`. There is no way to know when it expires, or how many call you have left, or anything usefull for that matter (yep, this sucks).
 
